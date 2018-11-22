@@ -1,0 +1,37 @@
+buildscript {
+    ext.kotlinVersion = '1.2.61'
+
+    repositories {
+        google()
+        jcenter()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+    }
+}
+
+apply plugin: 'kotlin'
+
+repositories {
+    google()
+    jcenter()
+}
+
+configurations {
+    sqlite
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation gradleApi()
+
+    sqlite 'org.xerial:sqlite-jdbc:3.20.1'
+    URLClassLoader loader = GroovyObject.class.classLoader
+    configurations.sqlite.each { File file ->
+        loader.addURL(file.toURL())
+    }
+    implementation 'org.json:json:20160212'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
+    implementation 'commons-io:commons-io:2.6'
+}
